@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>meu primeiro jogo multiplayer</title>
+
+    <style>
+        #screen {
+            border: 10px solid #ccc;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            height: 400px;
+            width: 400px;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <canvas id="screen" width="10" height="10"></canvas>
+    <script type="module">
+
+        import createKeyboardListener from './keyboard-Listener.js'
+        import createGame from './game.js'
+        import renderScreen from './renderScreen.js'
+
+        const screen = document.getElementById('screen')
+        
+        const game = createGame()
+
+        const keyboardEventListener = createKeyboardListener(document)
+        keyboardEventListener.subscribe(game.movePlayer)
+
+        renderScreen(screen, game, requestAnimationFrame)
+
+        const socket =io()
+
+        socket.on('connect', () => {
+            const playerId = socket.id
+            console.log(`Player connect with id: ${playerId}`)
+        })
+
+        socket.on('setup', (state) => {
+            game.state = state
+        })
+
+    </script>
+</body>
+</html>
