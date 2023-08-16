@@ -29,19 +29,29 @@
         const game = createGame()
 
         const keyboardEventListener = createKeyboardListener(document)
-        keyboardEventListener.subscribe(game.movePlayer)
-
+        
         renderScreen(screen, game, requestAnimationFrame)
-
+        
         const socket =io()
-
+        
         socket.on('connect', () => {
             const playerId = socket.id
             console.log(`Player connect with id: ${playerId}`)
         })
-
+        
         socket.on('setup', (state) => {
-            game.state = state
+            const playerId = socket.id
+            game.setState(state)
+            keyboardEventListener.registerPlayerId(playerId)
+            keyboardEventListener.subscribe(game.movePlayer)
+        })
+
+        socket.on('add-player', (comand) => {
+            game.addPlayer(comand)
+        })
+
+        socket.on('remove-player', (comand) => {
+            game.removePlayer(comand)
         })
 
     </script>
