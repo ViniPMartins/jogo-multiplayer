@@ -24,6 +24,10 @@ export default function createGame() {
         Object.assign(state, newState)
     }
 
+    function start () {
+        setInterval(addFruits, 2000)
+    }
+
     function addPlayer (comand) {
         const playerId = comand.playerId
         const playerX = 'playerX' in comand ? comand.playerX : Math.floor(Math.random() * state.screen.width)
@@ -31,7 +35,6 @@ export default function createGame() {
 
         state.players[playerId] = {x: playerX, y: playerY}
 
-        console.log(`> Notifing: ${comand.playerId}`)
         notifyAll({
             type: 'add-player',
             playerId: playerId,
@@ -49,18 +52,31 @@ export default function createGame() {
     }
 
     function addFruits (comand) {
-        const fruitId = comand.fruitId
-        const fruitX = comand.fruitX
-        const fruitY = comand.fruitY
+        const fruitId = comand ? comand.fruitId : Math.floor(Math.random() * 1000000)
+        const fruitX = comand ? comand.fruitX : Math.floor(Math.random() * state.screen.height)
+        const fruitY = comand ? comand.fruitY : Math.floor(Math.random() * state.screen.height)
 
         state.fruits[fruitId] = {x: fruitX, y: fruitY}
+
+        notifyAll({
+            type: 'add-fruit',
+            fruitId: fruitId,
+            fruitX: fruitX,
+            fruitY: fruitY
+        })
     }
 
     function removeFruits(fruitId) {
         delete state.fruits[fruitId]
+        notifyAll({
+            type: 'remove-fruit',
+            fruitId: fruitId
+        })
     }
 
     function movePlayer(comand) {
+
+        notifyAll(comand)
 
         const acceptedMoves = {
             ArrowUp (player) {
@@ -117,6 +133,7 @@ export default function createGame() {
         addFruits,
         removeFruits,
         setState,
-        subscribe
+        subscribe,
+        start
     }
 }

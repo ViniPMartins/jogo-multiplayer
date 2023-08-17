@@ -1,4 +1,4 @@
-export default function renderScreen(screen, game, requestAnimationFrame) {
+export default function renderScreen(screen, game, requestAnimationFrame, currentPlayerId) {
 
     const context = screen.getContext('2d')
 
@@ -6,7 +6,16 @@ export default function renderScreen(screen, game, requestAnimationFrame) {
 
     for (const playerId in game.state.players) {
         const player = game.state.players[playerId]
-        context.fillStyle = 'black'
+
+        //console.log(`> Current player ${currentPlayerId}`)
+        //console.log(`> PlayerId ${playerId}`)
+
+        if (playerId === currentPlayerId) {
+            context.fillStyle = '#F0DB4F'
+        } else {
+            context.fillStyle = 'black'
+        }
+
         context.fillRect(player.x, player.y, 1, 1)
     }
 
@@ -22,6 +31,6 @@ export default function renderScreen(screen, game, requestAnimationFrame) {
     }
 
     requestAnimationFrame(() => {
-        renderScreen(screen, game, requestAnimationFrame)
+        renderScreen(screen, game, requestAnimationFrame, currentPlayerId)
     })
 }

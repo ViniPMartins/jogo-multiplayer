@@ -24,7 +24,8 @@ export default function createKeyboardListener (document) {
 
     function keyPress(event) {
         const comand = {
-            playerId: state.playerId, 
+            type: 'move-player',
+            playerId: state.playerId,
             key: event.key
         }
         notifyAll(comand)
