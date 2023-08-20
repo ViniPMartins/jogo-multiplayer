@@ -32,14 +32,16 @@ export default function createGame() {
         const playerId = comand.playerId
         const playerX = 'playerX' in comand ? comand.playerX : Math.floor(Math.random() * state.screen.width)
         const playerY = 'playerY' in comand ? comand.playerY : Math.floor(Math.random() * state.screen.height)
+        const score = 0
 
-        state.players[playerId] = {x: playerX, y: playerY}
+        state.players[playerId] = {x: playerX, y: playerY, score:score}
 
         notifyAll({
             type: 'add-player',
             playerId: playerId,
             playerX: playerX,
-            playerY: playerY
+            playerY: playerY,
+            score: score
         })
     }
 
@@ -72,6 +74,10 @@ export default function createGame() {
             type: 'remove-fruit',
             fruitId: fruitId
         })
+    }
+
+    function addScore (playerId) {
+        state.players[playerId].score += 1
     }
 
     function movePlayer(comand) {
@@ -121,6 +127,7 @@ export default function createGame() {
             if (player.x == fruit.x && player.y == fruit.y) {
                 //console.log(`Colision with ${playerId} and ${fruitId}`)
                 removeFruits(fruitId)
+                addScore(playerId)
             }
         }
     }

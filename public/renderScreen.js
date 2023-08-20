@@ -30,6 +30,34 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
         context.clearRect(0, 0, 10, 10)
     }
 
+    const scoreTable = document.getElementById("score-table")
+    createScoreTable(game.state)
+
+    function createScoreTable(state) {
+        let html = ''
+
+        html += `<tr class="header">
+                    <td>
+                        Jogadores
+                    </td>
+                </tr>`
+
+        for (const playerId in state.players) {
+                const player = state.players[playerId]
+
+                html += `<tr>
+                            <td>
+                                ${playerId}
+                            </td>
+                            <td class="score">
+                                ${player.score}
+                            </td>
+                        </tr>`
+        }
+
+        scoreTable.innerHTML = html
+    }
+
     requestAnimationFrame(() => {
         renderScreen(screen, game, requestAnimationFrame, currentPlayerId)
     })
