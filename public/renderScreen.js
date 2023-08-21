@@ -47,7 +47,7 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
 
                 html += `<tr>
                             <td>
-                                ${playerId}
+                                ${player.playerName}
                             </td>
                             <td class="score">
                                 ${player.score}
