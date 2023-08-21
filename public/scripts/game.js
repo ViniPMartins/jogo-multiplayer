@@ -30,7 +30,7 @@ export default function createGame() {
 
     function addPlayer (comand) {
         const playerId = comand.playerId
-        const playerName = 'Player 1'
+        const playerName = comand.playerName
         const playerX = 'playerX' in comand ? comand.playerX : Math.floor(Math.random() * state.screen.width)
         const playerY = 'playerY' in comand ? comand.playerY : Math.floor(Math.random() * state.screen.height)
         const score = 0
@@ -40,6 +40,7 @@ export default function createGame() {
         notifyAll({
             type: 'add-player',
             playerId: playerId,
+            playerName: playerName,
             playerX: playerX,
             playerY: playerY,
             score: score
@@ -59,7 +60,11 @@ export default function createGame() {
         const fruitX = comand ? comand.fruitX : Math.floor(Math.random() * state.screen.height)
         const fruitY = comand ? comand.fruitY : Math.floor(Math.random() * state.screen.height)
 
-        state.fruits[fruitId] = {x: fruitX, y: fruitY}
+        let nFruits = Object.keys(state.fruits).length
+
+        if (nFruits < 30) {
+            state.fruits[fruitId] = {x: fruitX, y: fruitY}
+        }
 
         notifyAll({
             type: 'add-fruit',

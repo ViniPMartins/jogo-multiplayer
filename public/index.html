@@ -4,131 +4,7 @@
     <meta charset="UTF-8">
     <title>meu primeiro jogo multiplayer</title>
 
-    <style>
-        body {
-            margin: 40px 0 0 0;
-            padding: 0;
-            background-color: #EEE;
-            text-align: center;
-        }
-
-        h3 {
-            font-size: 35px;
-        }
-
-        #screen {
-            height: 400px;
-            width: 400px;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-            image-rendering: -moz-crisp-edges;
-            -webkit-box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
-            -moz-box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
-            box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            display: inline-block;
-            vertical-align: top;
-        }
-
-        #score-table {
-            font-size: 13px;
-            vertical-align: top;
-            display: inline-block;
-            font-family: Arial, Helvetica, sans-serif
-        }
-
-        #score-table tr.header td {
-                border-bottom: 1px solid #CCC;
-                padding-bottom: 8px;
-                font-weight: bold;
-            }
-
-        #score-table td {
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-
-        #score-table .score {
-            padding-left: 10px;
-        }
-
-        .title {
-            color: #383738;
-        }
-
-        .input-user { 
-            border-color:#cccccc; 
-            font-size:15px; 
-            text-align:center; 
-            border-style:hidden; 
-            border-width:0px; 
-            border-radius:50px; 
-            padding:12px; 
-            box-shadow: 2px 3px 5px 0px rgba(42,42,42,.75); 
-            text-shadow:0px 0px 0px rgba(42,42,42,.75); 
-            font-family:serif;
-            margin: 30px;
-        }
-
-        .input-user:focus { outline:none; } 
-
-        .btn-connect {
-            box-shadow: 4px 6px 6px 0px #999999;
-            background-color:#918e91;
-            border-radius:35px;
-            display:inline-block;
-            cursor:pointer;
-            color:#ffffff;
-            font-family:Arial;
-            font-size:17px;
-            padding:15px 49px;
-            text-decoration:none;
-        }
-
-        .btn-connect:hover {
-            background-color:#5c5c5c;
-        }
-
-        .btn-connect:active {
-            position:relative;
-            top:1px;
-        }
-
-        .text {
-            margin-top: 0;
-            font-size: 1.1em;
-        }
-
-        .modal {
-            display: block; 
-            position: fixed;
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            /*height: 100%;*/
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal .content {
-            background-color: #D3D3D3;
-            margin: 15% auto; 
-            padding: 20px;
-            border-radius: 5px;
-            width: 70%; 
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            font-family: 'LexendDeca-Regular';
-            color: var(--title);
-        }
-
-    </style>
+    <link rel="stylesheet" href="css/style.css">
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
@@ -137,44 +13,29 @@
         <div class="content">
             <h1 class="title">Insira o seu nome de usuário</h1>
             <input class="input-user" type="text">
-            <button class="btn-connect" onclick="switchModal()">Conectar</button>
+            <button class="btn-connect" >Conectar</button>
         </div>
     </div>
 
-    <!--<h3>Fruits Rush</h3>-->
-    <canvas id="screen" width="1" height="1"></canvas>
+    <h3>Fruits Rush</h3>
+    <canvas id="screen" width="10" height="10"></canvas>
     <table id="score-table"></table>
-    <script>
-        function switchModal() {
-            
-            const user = document.querySelector(".input-user").value
-            
-            if (user === "") {
-                alert("Insira um usuário")
-                
-            } 
-            else {
-                const modal = document.querySelector('.modal')
-                const actualStyle = modal.style.display
-                if(actualStyle == 'block') {
-                    modal.style.display = 'none'
-                }
-                else {
-                    modal.style.display = 'block'
-                }
-            }
-        }
-    </script>
     <script type="module">
 
-        import createKeyboardListener from './keyboard-Listener.js'
-        import createGame from './game.js'
-        import renderScreen from './renderScreen.js'
+        import createKeyboardListener from './scripts/keyboard-Listener.js'
+        import createGame from './scripts/game.js'
+        import renderScreen from './scripts/renderScreen.js'
+        import loginPlayer from './scripts/login-player.js'
+
+        const newPlayer = loginPlayer()
+
+        const btn = document.querySelector(".btn-connect")
+        btn.addEventListener('click', (event) => {
+            newPlayer.verifyPlayer(document)
+        })
 
         const game = createGame()
-        
         const keyboardEventListener = createKeyboardListener(document)
-        
         const socket =io()
         
         socket.on('setup', (state) => {
@@ -190,7 +51,18 @@
         socket.on('connect', () => {
             const playerId = socket.id
             console.log(`Player connect with id: ${playerId}`)
+            newPlayer.subscribe((comand) => {
+                console.log('> Transmiting loggin-player')
+                socket.emit('loggin-player', comand)
+            })
+        })
+        
+        socket.on('loggin-player', (comand) => {
+            console.log('> INDEX: Receiving loggin-player')
+            const modal = document.querySelector('.modal')
+            modal.style.display = 'none'
 
+            const playerId = socket.id
             const screen = document.getElementById('screen')
             renderScreen(screen, game, requestAnimationFrame, playerId)
         })

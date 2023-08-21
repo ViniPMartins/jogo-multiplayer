@@ -1,0 +1,122 @@
+body {
+    margin: 40px 0 0 0;
+    padding: 0;
+    background-color: #EEE;
+    text-align: center;
+}
+
+h3 {
+    font-size: 35px;
+}
+
+#screen {
+    height: 400px;
+    width: 400px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    -webkit-box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
+    -moz-box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
+    box-shadow: 0px 4px 17px 0px rgba(0,0,0,0.19);
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#score-table {
+    font-size: 13px;
+    vertical-align: top;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+#score-table tr.header td {
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 8px;
+        font-weight: bold;
+    }
+
+#score-table td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#score-table .score {
+    padding-left: 10px;
+}
+
+.title {
+    color: #383738;
+}
+
+.input-user { 
+    border-color:#cccccc; 
+    font-size:15px; 
+    text-align:center; 
+    border-style:hidden; 
+    border-width:0px; 
+    border-radius:50px; 
+    padding:12px; 
+    box-shadow: 2px 3px 5px 0px rgba(42,42,42,.75); 
+    text-shadow:0px 0px 0px rgba(42,42,42,.75); 
+    font-family:serif;
+    margin: 30px;
+}
+
+.input-user:focus { outline:none; } 
+
+.btn-connect {
+    box-shadow: 4px 6px 6px 0px #999999;
+    background-color:#918e91;
+    border-radius:35px;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding:15px 49px;
+    text-decoration:none;
+}
+
+.btn-connect:hover {
+    background-color:#5c5c5c;
+}
+
+.btn-connect:active {
+    position:relative;
+    top:1px;
+}
+
+.text {
+    margin-top: 0;
+    font-size: 1.1em;
+}
+
+.modal {
+    display: block; 
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal .content {
+    background-color: #D3D3D3;
+    margin: 15% auto; 
+    padding: 20px;
+    border-radius: 5px;
+    width: 70%; 
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-family: 'LexendDeca-Regular';
+    color: var(--title);
+}

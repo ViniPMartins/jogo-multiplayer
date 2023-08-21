@@ -1,7 +1,7 @@
 import express from 'express';
 import http from 'http';
 import { Server } from "socket.io";
-import createGame from './public/game.js'
+import createGame from './public/scripts/game.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -20,9 +20,16 @@ sockets.on('connection', (socket) => {
     const playerId = socket.id
     console.log(`SERVER Connection with Id: ${playerId}`)
 
-    game.addPlayer({playerId: playerId})
-
-    socket.emit('setup', game.state)
+    socket.on('loggin-player', (comand) => {
+        console.log('> SERVER: Receiving loggin-player')
+        game.addPlayer({
+            playerId: playerId,
+            playerName: comand.playerName
+        })
+        
+        socket.emit('loggin-player', comand)
+        socket.emit('setup', game.state)
+    })
 
     socket.on('disconnect', () => {
         game.removePlayer({playerId: playerId})
@@ -32,7 +39,6 @@ sockets.on('connection', (socket) => {
     socket.on('move-player', (comand) => {
         comand.playerId = playerId
         comand.type = 'move-player'
-
         game.movePlayer(comand)
     })
 })
