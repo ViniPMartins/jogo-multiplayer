@@ -34,6 +34,16 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
     createScoreTable(game.state)
 
     function createScoreTable(state) {
+
+        const playerSorted = []
+
+        for (const playerId in state.players) {
+            const player = state.players[playerId]
+            playerSorted.push({playerId: playerId, playerName: player.playerName, score: player.score})
+        }
+
+        playerSorted.sort((a, b) => { return b.score - a.score})
+
         let html = ''
 
         html += `<tr class="header">
@@ -42,8 +52,8 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
                     </td>
                 </tr>`
 
-        for (const playerId in state.players) {
-                const player = state.players[playerId]
+        for (const idx in playerSorted) {
+                const player = playerSorted[idx]
 
                 html += `<tr>
                             <td>
