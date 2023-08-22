@@ -1,5 +1,7 @@
 # Meu jogo multiplayer
 
+![gif jogo](https://github.com/ViniPMartins/jogo-multiplayer/assets/62973888/8c5b69cd-66fc-411c-a5ee-12cbe94cbb14)
+
 > :construction: Projeto em construção :construction:
 
 📚 Projeto criado para estudo de: 
