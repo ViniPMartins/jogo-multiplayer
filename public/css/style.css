@@ -35,6 +35,7 @@ h3 {
 #score-table tr.header td {
         border-bottom: 1px solid #CCC;
         padding-bottom: 8px;
+        padding-right: 10px;
         font-weight: bold;
     }
 

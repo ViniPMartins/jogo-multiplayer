@@ -50,6 +50,9 @@ export default function renderScreen(screen, game, requestAnimationFrame, curren
                     <td>
                         Jogadores
                     </td>
+                    <td>
+                        Pontos
+                    </td>
                 </tr>`
 
         for (const idx in playerSorted) {
