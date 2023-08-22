@@ -8,6 +8,7 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+    <h3>Fruits Rush</h3>
 
     <div class="modal">
         <div class="content">
@@ -17,9 +18,17 @@
         </div>
     </div>
 
-    <h3>Fruits Rush</h3>
-    <canvas id="screen" width="10" height="10"></canvas>
-    <table id="score-table"></table>
+    <div class="max-concurrent-connection-message">
+        <h1>Número máximo de conexões atingida!</h1>
+        <h2>(não feche esta página)</h2>
+        <p>Apesar do número máximo ter sido atingido, esta página ficará tentando reconectar em background automaticamente. Assim que aumentarmos o número de conexões, você não precisará fazer nada para reconectar e começar a jogar com a turma!</p>
+    </div>
+
+    <div class="game-container">
+        <canvas id="screen" width="10" height="10"></canvas>
+        <table id="score-table"></table>
+    </div>
+
     <script type="module">
 
         import createKeyboardListener from './scripts/keyboard-Listener.js'
@@ -37,7 +46,24 @@
         const game = createGame()
         const keyboardEventListener = createKeyboardListener(document)
         const socket =io()
+
+        socket.on('connect', () => {
+            const playerId = socket.id
+            console.log(`Player connect with id: ${playerId}`)
+            newPlayer.subscribe((comand) => {
+                socket.emit('loggin-player', comand)
+            })
+        })
         
+        socket.on('loggin-player', (comand) => {
+            const modal = document.querySelector('.modal')
+            modal.style.display = 'none'
+
+            const playerId = socket.id
+            const screen = document.getElementById('screen')
+            renderScreen(screen, game, requestAnimationFrame, playerId)
+        })
+
         socket.on('setup', (state) => {
             const playerId = socket.id
             game.setState(state)
@@ -46,25 +72,6 @@
             keyboardEventListener.subscribe((comand) => {
                 socket.emit('move-player', comand)
             })
-        })
-
-        socket.on('connect', () => {
-            const playerId = socket.id
-            console.log(`Player connect with id: ${playerId}`)
-            newPlayer.subscribe((comand) => {
-                console.log('> Transmiting loggin-player')
-                socket.emit('loggin-player', comand)
-            })
-        })
-        
-        socket.on('loggin-player', (comand) => {
-            console.log('> INDEX: Receiving loggin-player')
-            const modal = document.querySelector('.modal')
-            modal.style.display = 'none'
-
-            const playerId = socket.id
-            const screen = document.getElementById('screen')
-            renderScreen(screen, game, requestAnimationFrame, playerId)
         })
 
         socket.on('add-player', (comand) => {
@@ -91,6 +98,18 @@
             if (comand.playerId !== playerId) {
                 game.movePlayer(comand)
             }
+        })
+
+        socket.on('show-max-concurrent-connections-message', () => {
+                document.querySelector('.modal').style.display = 'none'
+                document.querySelector('.max-concurrent-connection-message').style.display = 'block'
+                document.querySelector('.game-container').style.display = 'none'
+            })
+
+        socket.on('hide-max-concurrent-connections-message', () => {
+            document.querySelector('.max-concurrent-connection-message').style.display = 'none'
+            document.querySelector('.modal').style.display = 'block'
+            document.querySelector('.game-container').style.display = 'block'
         })
 
     </script>

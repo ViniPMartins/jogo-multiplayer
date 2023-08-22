@@ -17,18 +17,30 @@ game.subscribe((comand) => {
 })
 
 sockets.on('connection', (socket) => {
+
+    let maxConcurrentConnections = 15
+
+    if (sockets.engine.clientsCount > maxConcurrentConnections) {
+        socket.emit('show-max-concurrent-connections-message')
+        socket.conn.close()
+        return
+      } else {
+        socket.emit('hide-max-concurrent-connections-message')
+    }
+
     const playerId = socket.id
     console.log(`SERVER Connection with Id: ${playerId}`)
 
     socket.on('loggin-player', (comand) => {
-        console.log('> SERVER: Receiving loggin-player')
+
         game.addPlayer({
-            playerId: playerId,
+        playerId: playerId,
             playerName: comand.playerName
         })
         
         socket.emit('loggin-player', comand)
         socket.emit('setup', game.state)
+            
     })
 
     socket.on('disconnect', () => {

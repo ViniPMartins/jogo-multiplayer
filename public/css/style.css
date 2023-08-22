@@ -98,8 +98,13 @@ h3 {
     display: block; 
     position: fixed;
     z-index: 1; 
-    left: 0;
+    margin: auto;
+    /*margin: 100px;*/
+    padding-bottom: 150px;
     top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: 100%; 
     height: 100%;
     overflow: auto;
@@ -119,4 +124,19 @@ h3 {
 
     font-family: 'LexendDeca-Regular';
     color: var(--title);
+}
+
+.max-concurrent-connection-message {
+    background-color: #F0DB4F;
+    border: 1px solid #000;
+    text-align:center;
+    margin: auto;
+    margin: 100px;
+    padding: 50px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    display: none;
 }
