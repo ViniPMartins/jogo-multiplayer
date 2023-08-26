@@ -17,3 +17,6 @@
 As melhorias e personalizações criadas até o momento:
 
 - [x] Inserção de uma tela de login, onde a pessoa pode colocar um nickname personalizado.
+- [x] Acréscimo do limite de frutas (pixels verdes) desenhados na tela
+- [x] Acréscimo do limite de conexões
+- [ ] 
