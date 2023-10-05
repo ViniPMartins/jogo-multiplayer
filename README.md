@@ -19,7 +19,7 @@ npx nodemon
 - Websockets;
 - Design patterns como observer e factory.
 
-📹 Este projeto foi desenvolvido com base na playlist de vídeos do [Filipe Dechamps](https://www.youtube.com/playlist?list=PLMdYygf53DP5SVQQrkKCVWDS0TwYLVitL).
+📹 Este projeto foi desenvolvido com base na playlist de vídeos do @filipedeschamps [link playlist](https://www.youtube.com/playlist?list=PLMdYygf53DP5SVQQrkKCVWDS0TwYLVitL).
 
 -----
 
