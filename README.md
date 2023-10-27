@@ -7,6 +7,10 @@
 
 > :construction: Projeto em construção :construction:
 
+### 🚀 URL da aplicação Funcionando
+
+[https://jogo-multiplayer-bafd52de50ef.herokuapp.com/](https://jogo-multiplayer-bafd52de50ef.herokuapp.com/)
+
 ### 🚀 Como rodar
 Estando com o node instalado, é possível rodar usando o seguinte comando no terminal:
 ```javascript
